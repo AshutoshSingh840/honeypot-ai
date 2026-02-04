@@ -30,6 +30,10 @@ class HoneypotRequest(BaseModel):
     conversationHistory: List[Message] = []
     metadata: Optional[Metadata] = None
 
+@app.get("/healthz")
+def health_check():
+    return {"status": "ok"}
+
 
 # POST ENDPOINT
 
