@@ -42,7 +42,7 @@ async def honeypot_message(
     request: Request,
     x_api_key: str = Header(None)
 ):
-  
+    # API key validation
     if x_api_key != API_KEY:
         raise HTTPException(status_code=401, detail="Invalid API Key")
 
@@ -51,7 +51,8 @@ async def honeypot_message(
     except:
         body = None
 
-    if not body:
+    
+    if not body or "sessionId" not in body or "message" not in body:
         return {
             "status": "success",
             "reply": "Honeypot endpoint is reachable"
@@ -100,7 +101,6 @@ async def honeypot_message(
             "extractedIntelligence": SESSION_INTELLIGENCE[session_id],
             "agentNotes": "Scammer used urgency and attempted payment redirection"
         }
-
         send_final_callback(callback_payload)
         CALLBACK_SENT.add(session_id)
 
@@ -108,6 +108,7 @@ async def honeypot_message(
         "status": "success",
         "reply": reply_text
     }
+
 
 
 @app.get("/honeypot/message")
