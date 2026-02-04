@@ -37,8 +37,8 @@ def health_check():
 
 # POST ENDPOINT
 
-@app.post("/honeypot/message", methods=["POST", "GET"])
-async def honeypot_message(
+@app.post("/honeypot/agent")
+async def honeypot_agent(
     request: Request,
     x_api_key: str = Header(None)
 ):
